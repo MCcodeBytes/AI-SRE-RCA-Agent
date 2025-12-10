@@ -1,0 +1,11 @@
+2025-12-08 14:20:01 [PID:4096] [TXN:A100] LOG: Starting update on table 'inventory' for Item-882
+2025-12-08 14:20:01 [PID:4096] [TXN:A100] SQL: UPDATE inventory SET stock = stock - 1 WHERE id = 882;
+2025-12-08 14:20:02 [PID:5112] [TXN:B200] LOG: Starting update on table 'orders' for Order-991
+2025-12-08 14:20:02 [PID:5112] [TXN:B200] SQL: UPDATE orders SET status = 'processing' WHERE id = 991;
+2025-12-08 14:20:03 [PID:4096] [TXN:A100] SQL: SELECT * FROM orders WHERE id = 991 FOR UPDATE;
+2025-12-08 14:20:03 [PID:4096] [TXN:A100] WARN: Process 4096 waiting for ShareLock on transaction B200...
+2025-12-08 14:20:04 [PID:5112] [TXN:B200] SQL: UPDATE inventory SET stock = stock - 1 WHERE id = 882;
+2025-12-08 14:20:04 [PID:5112] [TXN:B200] ERROR: deadlock detected
+2025-12-08 14:20:04 [PID:5112] [TXN:B200] DETAIL: Process 5112 waits for ExclusiveLock on relation 882; blocked by process 4096.
+2025-12-08 14:20:04 [PID:5112] [TXN:B200] HINT: See server log for query details.
+2025-12-08 14:20:05 [PID:5112] [TXN:B200] ROLLBACK: transaction B200 aborted.
